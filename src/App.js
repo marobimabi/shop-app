@@ -1,37 +1,22 @@
-import logo from './logo.svg';
-//import './categories.styles.scss';
-//import CategoryItem from '../src/components/category-item/category-item.component';
-import CategoryDirectory from './components/category-directory/catgory-directrory.component';
+import Home from './components/home/home-component/home.component';
+import { Routes, Route, Outlet} from 'react-router-dom';
+import Navigation from './components/home/navigation/navigation.component';
+
+const Shop = ()=>{
+  return <h1 className='__header'>Here is the shop Component</h1>;
+}
+
 const App = () => {
-  const categories = [
-    {
-    "id": 1,
-    "title": "HATS",
-    "imageUrl": "https://i.ibb.co/cvpntL1/hats.png"
-  },
-  {
-    "id": 2,
-    "title": "JACKETS",
-    "imageUrl": "https://i.ibb.co/px2tCc3/jackets.png"
-  },
-  {
-    "id": 3,
-    "title": "SNEAKERS",
-    "imageUrl": "https://i.ibb.co/0jqHpnp/sneakers.png"
-  },
-  {
-    "id": 4,
-    "title": "WOMENS",
-    "imageUrl": "https://i.ibb.co/GCCdy8t/womens.png"
-  },
-  {
-    "id": 5,
-    "title": "MENS",
-    "imageUrl": "https://i.ibb.co/R70vBrQ/men.png"
-  }
-  ]
   return (
-    <CategoryDirectory categories = {categories} />
+    <Routes>
+      
+      <Route path='/' element={<Navigation />} >
+          <Route index element={<Home />} />
+          <Route path='shop' element={<Shop />} />
+      </Route>
+      
+
+    </Routes>  
   );
 }
 
