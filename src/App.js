@@ -1,7 +1,7 @@
 import logo from './logo.svg';
-import './categories.styles.scss';
-import CategoryItem from '../src/components/category-item/category-item.component';
-
+//import './categories.styles.scss';
+//import CategoryItem from '../src/components/category-item/category-item.component';
+import CategoryDirectory from './components/category-directory/catgory-directrory.component';
 const App = () => {
   const categories = [
     {
@@ -31,15 +31,7 @@ const App = () => {
   }
   ]
   return (
-    <div className='categories-container'>
-      {
-      categories.map((category) => (
-      
-    <CategoryItem category={category} />)
-
-      )
-     }
-    </div>
+    <CategoryDirectory categories = {categories} />
   );
 }
 
