@@ -6,6 +6,12 @@ import {
     GoogleAuthProvider
 
 } from 'firebase/auth';
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc
+} from 'firebase/firestore'
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -16,14 +22,35 @@ const firebaseConfig = {
     messagingSenderId: "120529491751",
     appId: "1:120529491751:web:5aec2859326e421eee3b02"
   };
-  
   // Initialize Firebase
   const firebaseapp = initializeApp(firebaseConfig);
  
   const provider = new GoogleAuthProvider();
   provider.setCustomParameters({
-    prompt: "selected_account",
+    prompt: "select_account",
   });
 
   export const auth = getAuth();
   export const signInWithGooglePopup = () => signInWithPopup(auth, provider);   
+
+  export const db = getFirestore();
+  export const createUserDocumentFromAuth = async(userAuth) =>{
+    const userDocRef =doc(db,'users', userAuth.uid);
+ 
+    const userSnapshot = await getDoc(userDocRef);
+
+    if(!userSnapshot.exists){
+      const { displayName, email} =userAuth;
+      const creatAt = new Date();
+      try {
+        await setDoc(userDocRef, {displayName,email, creatAt});
+        
+      } catch (error) {
+        console.log('there creating the user', error.message);
+      }
+    }
+    return userDocRef;
+
+
+  }
+
