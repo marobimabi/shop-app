@@ -1,8 +1,9 @@
-import { async } from "@firebase/util";
-import { useState } from "react";
-import {signInWithGooglePopup, createUserDocumentFromAuth,signInAuthUserwithEmailAndPassword } from '../../../utils/firebase/firebase.utiles'
+
+import { useState, useContext } from "react";
+import {signInWithGooglePopup, createUserDocumentFromAuth,signInAuthUserwithEmailAndPassword } from '../../../utils/firebase/firebase.utiles';
 import FormInput from "../../form input/form input componenet/form-input.component";
-import './sign-in-form.styles.scss'
+import { UserContext } from "../../../contexts/context component/context.component";
+import './sign-in-form.styles.scss';
 import Button from "../../button component/button.component";
 
 const DefaultSignField ={
@@ -13,7 +14,7 @@ const DefaultSignField ={
 const SignInForm = () =>{
     const [formFields, setformField] = useState(DefaultSignField);
     const {email,password} = formFields;
-    console.log(formFields);
+    const {setcurrentUser} = useContext(UserContext)
 
     const resetFormFields = () =>{
         setformField(DefaultSignField);
@@ -29,8 +30,9 @@ const SignInForm = () =>{
         event.preventDefault();
         
         try {
-            const response = await signInAuthUserwithEmailAndPassword(email, password);
-            console.log(response);
+            const {user} = await signInAuthUserwithEmailAndPassword(email, password);
+            setcurrentUser(user);
+            
            resetFormFields();
         } catch (error) {
 
@@ -47,6 +49,8 @@ const SignInForm = () =>{
         const {name, value} = event.target;
         setformField({...formFields, [name]: value})
     }
+  //  const [count, setcount] = useState(0);
+    
 
     return(
         <div className="sign-up-container">

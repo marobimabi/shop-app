@@ -1,9 +1,10 @@
 import { async } from "@firebase/util";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {createAuthUserwithEmailAndPassword, createUserDocumentFromAuth } from '../../../utils/firebase/firebase.utiles'
 import FormInput from "../../form input/form input componenet/form-input.component";
 import './sign-up-form.styles.scss'
 import Button from "../../button component/button.component";
+import { UserContext } from "../../../contexts/context component/context.component";
 
 const DefaultSignField ={
     displayName: '',
@@ -15,7 +16,8 @@ const DefaultSignField ={
 const SignUpForm = () =>{
     const [formFields, setformField] = useState(DefaultSignField);
     const {displayName,email,password,confirmPassword} = formFields;
-    console.log(formFields);
+    
+    const { setcurrentUser } = useContext(UserContext);
 
     const resetFormFields = () =>{
         setformField(DefaultSignField);
@@ -25,13 +27,13 @@ const SignUpForm = () =>{
         if(password !== confirmPassword){ alert("Password and confirmation does not mutch"); return;}
         
         try {
-            const {user} = await createAuthUserwithEmailAndPassword(email, password);
-           // console.log(user);
+           const {user} = await createAuthUserwithEmailAndPassword(email, password);
+           setcurrentUser(user);
            await createUserDocumentFromAuth(user, {displayName});
            resetFormFields();
         } catch (error) {
 
-            if(error.code == 'auth/email.already-in-use'){
+            if(error.code === 'auth/email.already-in-use'){
                 alert('Email already in use')
             }
             else{console.log('user creation encountered an error', error);}
