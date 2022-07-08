@@ -6,10 +6,10 @@ const CartItem = ({cartItem}) =>{
         <div className='cart-item-container'>
             <img src={imageUrl} alt={`${name}`} />
             <div className='item-details'>
-                <h2 className='name'>{name}</h2>
+                <span className='name'>{name}</span>
                 <span className='price'>{quantity} X {price}</span>
             </div>
-       git a </div>
+        </div>
     )
 }
 
